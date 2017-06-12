@@ -266,7 +266,7 @@ public class DockerClient {
         LaunchResult result = new LaunchResult();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
-        result.setStatus(procStarter.quiet(quiet).cmds(args).envs(launchEnv).stdout(out).stderr(err).start().joinWithTimeout(10, TimeUnit.SECONDS, launcher.getListener()));
+        result.setStatus(procStarter.quiet(quiet).cmds(args).envs(launchEnv).stdout(out).stderr(err).start().joinWithTimeout(60, TimeUnit.SECONDS, launcher.getListener()));
         final String charsetName = Charset.defaultCharset().name();
         result.setOut(out.toString(charsetName));
         result.setErr(err.toString(charsetName));
@@ -280,10 +280,10 @@ public class DockerClient {
      */
     public String whoAmI() throws IOException, InterruptedException {
         ByteArrayOutputStream userId = new ByteArrayOutputStream();
-        launcher.launch().cmds("id", "-u").quiet(true).stdout(userId).start().joinWithTimeout(10, TimeUnit.SECONDS, launcher.getListener());
+        launcher.launch().cmds("id", "-u").quiet(true).stdout(userId).start().joinWithTimeout(60, TimeUnit.SECONDS, launcher.getListener());
 
         ByteArrayOutputStream groupId = new ByteArrayOutputStream();
-        launcher.launch().cmds("id", "-g").quiet(true).stdout(groupId).start().joinWithTimeout(10, TimeUnit.SECONDS, launcher.getListener());
+        launcher.launch().cmds("id", "-g").quiet(true).stdout(groupId).start().joinWithTimeout(60, TimeUnit.SECONDS, launcher.getListener());
 
         final String charsetName = Charset.defaultCharset().name();
         return String.format("%s:%s", userId.toString(charsetName).trim(), groupId.toString(charsetName).trim());
